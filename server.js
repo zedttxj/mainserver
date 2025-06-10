@@ -191,7 +191,7 @@ app.post('/api/room-closed', (req, res) => {
 
   if (!roomId) {
       console.log(`❌ JWT mismatch for roomId ${roomId}`);
-      return;
+      return res.sendStatus(204);
   }
 
   const clientId = roomCreators.get(roomId);
@@ -213,7 +213,7 @@ app.post('/api/room-opened', (req, res) => {
 
   if (!roomId) {
       console.log(`❌ JWT mismatch for roomId ${roomId}`);
-      return;
+      return res.sendStatus(204);
   }
   
   console.log('Verified room opened:', roomId); // provider can't occupy the room that they're not in
@@ -418,7 +418,7 @@ app.post("/register-guest", (req, res) => {
 
 const clients = new Map(); // clientId → jwt
 
-app.post("/long-term", (req, res2) => {
+app.post("/long-term", (req, res) => {
 
   // Determine if this is the first registrant
   
@@ -434,14 +434,14 @@ app.post("/long-term", (req, res2) => {
         const client = clients.get(parsed.clientId);
         if (client) {
           if (!verifyRating(client)) clients.delete(parsed.clientId); // ✅ use `delete` instead of `remove`
-          else return;
+          else return res.sendStatus(204);
         }
       }
     }
   }
 
   if (clients.has(clientId)) {
-    return res2.status(409).send("Client already registered");
+    return res.status(409).send("Client already registered");
   }
   
 
@@ -455,7 +455,7 @@ app.post("/long-term", (req, res2) => {
 
   clients.set(clientId, token);
 
-  res2.cookie("jwt_long", token, {
+  res.cookie("jwt_long", token, {
     httpOnly: true,
     sameSite: "Strict",
     secure: true,
@@ -463,7 +463,7 @@ app.post("/long-term", (req, res2) => {
   });
 
   
-  res2.sendStatus(200);
+  res.sendStatus(200);
 });
 
 
