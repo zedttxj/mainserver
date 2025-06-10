@@ -14,7 +14,7 @@ const PORT = 3000;
 // const privateKey = fs.readFileSync(path.join(__dirname, './private.key'), 'utf-8');
 // const publicKey = fs.readFileSync(path.join(__dirname, './room-public.pem'), 'utf-8');
 
-const { runAuthenticatedClient, runAuthenticatedClient2Ways, requestCertificateFromHub } = require('../roomtest/clientCertRequester');
+const { runAuthenticatedClient, runAuthenticatedClient2Ways, requestCertificateFromHub } = require('./clientCertRequester');
 let privateKey, publicKey;
 
 (async () => {
