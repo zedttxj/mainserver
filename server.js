@@ -23,7 +23,7 @@ let privateKey, publicKey;
   privateKey = issued.privateKey;
   const caPublicKey = issued.caPublicKey;
   const roomId = issued.roomId;
-  const result = await runAuthenticatedClient2Ways("wss://localhost:8888/hub", certificate, privateKey, caPublicKey, roomId);
+  const result = await runAuthenticatedClient2Ways("wss://relay-h2hg.onrender.com/hub", certificate, privateKey, caPublicKey, roomId);
   publicKey = result.clientPubKey;
   console.log(certificate);
   console.log(privateKey);
@@ -39,7 +39,7 @@ let rating_privateKey;
   rating_privateKey = issued.privateKey;
   const caPublicKey = issued.caPublicKey;
   const roomId = issued.roomId;
-  await runAuthenticatedClient("ws://localhost:8888/hub", certificate, rating_privateKey, caPublicKey, roomId);
+  await runAuthenticatedClient("wss://relay-h2hg.onrender.com/hub", certificate, rating_privateKey, caPublicKey, roomId);
   console.log(certificate);
   console.log(rating_privateKey);
 })();
@@ -55,7 +55,7 @@ const { publicKey: sign_publicKey, privateKey: sign_privateKey } = crypto.genera
 
 // 💡 Allow CORS from localhost for local frontend testing
 // {test 3}
-const allowedOrigins = ["http://localhost:3000", "http://localhost:8000", "http://localhost:8080"];
+const allowedOrigins = ["https://mainserver-eivi.onrender.com", "https://relay-h2hg.onrender.com", https://ratings-iomx.onrender.com, "https://togetherjsserver.onrender.com"];
 
 const corsOptions = {
   origin: function (origin, callback) {
