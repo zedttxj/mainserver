@@ -9,7 +9,7 @@ const path = require('path');
 const https = require('https');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 // const JWT_SECRET = 'supersecuresecret'; // 🔒 Replace with env var in prod
 // const privateKey = fs.readFileSync(path.join(__dirname, './private.key'), 'utf-8');
 // const publicKey = fs.readFileSync(path.join(__dirname, './room-public.pem'), 'utf-8');
