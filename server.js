@@ -275,8 +275,7 @@ app.post('/api/map-update', (req, res) => {
   const postData = JSON.stringify({ clientIds: creatorIds });
 
   const forwardReq = https.request({
-    hostname: 'localhost',
-    port: 4000,
+    hostname: 'ratings-iomx.onrender.com',
     path: '/api/summary',
     method: 'POST',
     headers: {
