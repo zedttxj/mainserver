@@ -418,7 +418,7 @@ app.post("/register-guest", (req, res) => {
 
 const clients = new Map(); // clientId → jwt
 
-app.post("/long-term", (req, res) => {
+app.post("/long-term", (req, res2) => {
 
   // Determine if this is the first registrant
   
@@ -441,7 +441,7 @@ app.post("/long-term", (req, res) => {
   }
 
   if (clients.has(clientId)) {
-    return res.status(409).send("Client already registered");
+    return res2.status(409).send("Client already registered");
   }
   
 
@@ -455,7 +455,7 @@ app.post("/long-term", (req, res) => {
 
   clients.set(clientId, token);
 
-  res.cookie("jwt_long", token, {
+  res2.cookie("jwt_long", token, {
     httpOnly: true,
     sameSite: "Strict",
     secure: true,
@@ -463,7 +463,7 @@ app.post("/long-term", (req, res) => {
   });
 
   
-  res.sendStatus(200);
+  res2.sendStatus(200);
 });
 
 
