@@ -24,6 +24,20 @@ function verifyCert(cert, caPublicKeyPem) {
   return verifier.verify(caKey, certSignature, 'base64');
 }
 
+function sendAsync(ws, data) {
+  return new Promise((resolve, reject) => {
+    if (ws.readyState === ws.OPEN) {
+      ws.send(JSON.stringify(data), resolve);
+    } else if (ws.readyState === ws.CONNECTING) {
+      ws.once('open', () => {
+        ws.send(JSON.stringify(data), resolve);
+      });
+    } else {
+      reject(new Error("WebSocket is not open"));
+    }
+  });
+}
+
 async function requestCertificateFromHub(hubUrl = "wss://relay-h2hg.onrender.com/hub", clientId = "node-client-1", role = "render-peer") {
   const roomId = Math.random().toString(36).substring(2, 10);
   const ws = new WebSocket(`${hubUrl}/${roomId}`);
@@ -189,25 +203,26 @@ async function runAuthenticatedClient2Ways(hubUrl = "wss://relay-h2hg.onrender.c
               signer.end();
               const signedNonce = signer.sign(privateKey, 'base64');
 
-              ws.send(JSON.stringify({
+              sendAsync(ws, {
                 type: "nonce-response",
                 signedNonce,
                 cert: certificate
-              }), () => {
-                // Instead of closing, it send the challenge back:
+              }).then(() => {
                 nonceFrom1 = crypto.randomBytes(32).toString('hex');
                 console.log("[ws] Sending nonce:", nonceFrom1);
-                ws.send(JSON.stringify({
+                return sendAsync(ws, {
                   type: "nonce-challenge",
                   nonce: nonceFrom1,
                   cert: certificate
-                }), () => {
-                  // ✅ Only now close
-                  if (clientPubKey) {
-                    ws.close();
-                    resolve({clientPubKey});
-                  }
                 });
+              }).then(() => {
+                if (clientPubKey) {
+                  ws.close();
+                  resolve({ clientPubKey });
+                }
+              }).catch(err => {
+                console.error("WebSocket error:", err);
+                reject(err);
               });
           }
       });
