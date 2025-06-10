@@ -15,35 +15,28 @@ const PORT = 3000;
 // const publicKey = fs.readFileSync(path.join(__dirname, './room-public.pem'), 'utf-8');
 
 const { runAuthenticatedClient, runAuthenticatedClient2Ways, requestCertificateFromHub } = require('./clientCertRequester');
-let privateKey, publicKey;
+let privateKey, publicKey, rating_privateKey;
 
 (async () => {
-  const issued = await requestCertificateFromHub();
-  const certificate = issued.certificate;
-  privateKey = issued.privateKey;
-  const caPublicKey = issued.caPublicKey;
-  const roomId = issued.roomId;
-  const result = await runAuthenticatedClient2Ways("wss://relay-h2hg.onrender.com/hub", certificate, privateKey, caPublicKey, roomId);
-  publicKey = result.clientPubKey;
-  console.log(certificate);
-  console.log(privateKey);
-  console.log(publicKey);
-})();
-
-// const rating_privateKey = fs.readFileSync(path.join(__dirname, './inter-service-private.key'), 'utf-8');
-let rating_privateKey;
-
-(async () => {
+  {
+    const issued = await requestCertificateFromHub();
+    const certificate = issued.certificate;
+    privateKey = issued.privateKey;
+    const caPublicKey = issued.caPublicKey;
+    const roomId = issued.roomId;
+    const result = await runAuthenticatedClient2Ways("wss://relay-h2hg.onrender.com/hub", certificate, privateKey, caPublicKey, roomId);
+    publicKey = result.clientPubKey;
+  }
+  
   const issued = await requestCertificateFromHub();
   const certificate = issued.certificate;
   rating_privateKey = issued.privateKey;
   const caPublicKey = issued.caPublicKey;
   const roomId = issued.roomId;
   await runAuthenticatedClient("wss://relay-h2hg.onrender.com/hub", certificate, rating_privateKey, caPublicKey, roomId);
-  console.log(certificate);
-  console.log(rating_privateKey);
 })();
 
+// const rating_privateKey = fs.readFileSync(path.join(__dirname, './inter-service-private.key'), 'utf-8');
 
 // const nov_privateKey = fs.readFileSync(path.join(__dirname, './nov-private.pem'), 'utf-8');
 // const sign_publicKey = fs.readFileSync(path.join(__dirname, './rating-public.pem'), 'utf-8');
