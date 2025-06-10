@@ -55,7 +55,7 @@ const { publicKey: sign_publicKey, privateKey: sign_privateKey } = crypto.genera
 
 // 💡 Allow CORS from localhost for local frontend testing
 // {test 3}
-const allowedOrigins = ["https://mainserver-eivi.onrender.com", "https://relay-h2hg.onrender.com", https://ratings-iomx.onrender.com, "https://togetherjsserver.onrender.com"];
+const allowedOrigins = ["https://mainserver-eivi.onrender.com", "https://relay-h2hg.onrender.com", "https://ratings-iomx.onrender.com", "https://togetherjsserver.onrender.com"];
 
 const corsOptions = {
   origin: function (origin, callback) {
