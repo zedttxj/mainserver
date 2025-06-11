@@ -191,7 +191,7 @@ app.post('/api/room-closed', (req, res) => {
 
   if (!roomId) {
       console.log(`❌ JWT mismatch for roomId ${roomId}`);
-      return res.sendStatus(204);
+      return res.status(400).json({ success: false, error: "JWT mismatch for roomId" });
   }
 
   const clientId = roomCreators.get(roomId);
@@ -213,7 +213,7 @@ app.post('/api/room-opened', (req, res) => {
 
   if (!roomId) {
       console.log(`❌ JWT mismatch for roomId ${roomId}`);
-      return res.sendStatus(204);
+      return res.status(400).json({ success: false, error: "JWT mismatch for roomId" });
   }
   
   console.log('Verified room opened:', roomId); // provider can't occupy the room that they're not in
@@ -434,7 +434,7 @@ app.post("/long-term", (req, res) => {
         const client = clients.get(parsed.clientId);
         if (client) {
           if (!verifyRating(client)) clients.delete(parsed.clientId); // ✅ use `delete` instead of `remove`
-          else return res.sendStatus(204);
+          else return res.status(400).json({ success: false, error: "Failed to receive token" });
         }
       }
     }
@@ -463,7 +463,7 @@ app.post("/long-term", (req, res) => {
   });
 
   
-  res.sendStatus(200);
+  res.status(200).json({ ok: true });
 });
 
 
