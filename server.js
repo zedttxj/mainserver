@@ -458,7 +458,7 @@ app.post("/long-term", (req, res) => {
   res.cookie("jwt_long", token, {
     httpOnly: true,
     sameSite: "None",
-    secure: true,
+    secure: false,
     maxAge: 24 * 60 * 60 * 1000
   });
 
