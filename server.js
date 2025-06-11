@@ -438,7 +438,7 @@ app.post("/long-term", (req, res) => {
         const client = clients.get(parsed.clientId);
         if (client) {
           if (!verifyRating(client)) clients.delete(parsed.clientId); // ✅ use `delete` instead of `remove`
-          else return res.status(400).json({ success: false, error: "Failed to receive token" });
+          else return res.status(400).json({ success: false, error: "Failed to receive token or invalid cookie" });
         }
       }
     }
@@ -461,9 +461,9 @@ app.post("/long-term", (req, res) => {
 
   res.cookie("jwt_long", token, {
     httpOnly: true,
-    sameSite: "None",
+    sameSite: "none",
     secure: true,
-    maxAge: 24 * 60 * 60 * 1000
+    expires: new Date(Date.now() + (3600 * 1000 * 24 * 180 * 1))
   });
   
   res.status(200).send("OK");
