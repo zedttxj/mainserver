@@ -416,7 +416,6 @@ app.post("/register-guest", (req, res) => {
     secure: true,
     expires: new Date(Date.now() + (900 * 1000))
   });
-
   
   res.send(token);
 });
