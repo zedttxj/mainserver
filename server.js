@@ -371,9 +371,9 @@ app.post("/register-guest", (req, res) => {
 
   if (!myjwt) return res.status(401).send("Missing token");
   const parsed = verifyRating(myjwt);
-  if (!parsed) return res.status(401).send("Incorrect or expired token");
+  if (!parsed) return res.status(411).send("Incorrect or expired token");
   const clientId = parsed.clientId;
-  if (!clientId) return res.status(401).send("No clientId, how?");
+  if (!clientId) return res.status(421).send("No clientId, how?");
   const { room_id } = req.body;
   
   if (!room_id) {
