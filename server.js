@@ -412,8 +412,9 @@ app.post("/register-guest", (req, res) => {
 
   res.cookie("jwt", token, {
     httpOnly: true,
-    sameSite: "Strict",
-    secure: true
+    sameSite: "None",
+    secure: true,
+    expires: new Date(Date.now() + (900 * 1000))
   });
 
   
