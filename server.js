@@ -461,7 +461,7 @@ app.post("/long-term", (req, res) => {
 
   res.cookie("jwt_long", token, {
     httpOnly: true,
-    sameSite: "none",
+    sameSite: "None",
     secure: true,
     expires: new Date(Date.now() + (3600 * 1000 * 24 * 180 * 1))
   });
