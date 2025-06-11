@@ -463,7 +463,7 @@ app.post("/long-term", (req, res) => {
   });
 
   
-  res.status(200).json({ ok: true });
+  res.sendStatus(200);
 });
 
 
