@@ -458,12 +458,11 @@ app.post("/long-term", (req, res) => {
   res.cookie("jwt_long", token, {
     httpOnly: true,
     sameSite: "None",
-    secure: false,
+    secure: true,
     maxAge: 24 * 60 * 60 * 1000
   });
-
   
-  res.sendStatus(200);
+  res.status(200).send("OK");
 });
 
 
