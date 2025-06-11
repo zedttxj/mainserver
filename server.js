@@ -48,20 +48,24 @@ const { publicKey: sign_publicKey, privateKey: sign_privateKey } = crypto.genera
 
 // 💡 Allow CORS from localhost for local frontend testing
 // {test 3}
-const allowedOrigins = ["https://mainserver-eivi.onrender.com", "https://relay-h2hg.onrender.com", "https://ratings-iomx.onrender.com", "https://togetherjsserver.onrender.com", "https://zedttxj.github.io"];
+// const allowedOrigins = ["https://mainserver-eivi.onrender.com", "https://relay-h2hg.onrender.com", "https://ratings-iomx.onrender.com", "https://togetherjsserver.onrender.com", "https://zedttxj.github.io"];
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-};
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     if (!origin || allowedOrigins.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error('Not allowed by CORS'));
+//     }
+//   },
+//   credentials: true,
+// };
 
-app.use(cors(corsOptions)); // ✅ MUST come before routes
+// app.use(cors(corsOptions)); // ✅ MUST come before routes
+app.use(cors({
+  origin: "https://zedttxj.github.io", // ✅ fixed allowed origin
+  credentials: true                    // ✅ allow cookies
+}));
 app.use(helmet());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
